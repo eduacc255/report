@@ -20,7 +20,7 @@ def lspc(x, y, l, h, n_class):
     pi_y = np.zeros((len(y), n_class))
     for label in range(n_class):
         pi_y[:, label] = (y == label)
-    theta = np.linalg.solve(phi_x.T.dot(phi_x) + l * np.eye(len(x)), phi_x.dot(pi_y))
+    theta = np.linalg.solve(phi_x.T.dot(phi_x) + l * np.eye(len(x)), phi_x.T.dot(pi_y))
     return theta
 
 def visualize(x, y, theta, h):
@@ -32,8 +32,12 @@ def visualize(x, y, theta, h):
     plt.ylim(-.3, 1.8)
     unnormalized_prob = K.dot(theta)
     
+    print(unnormalized_prob)
+    
     # 解の補正
     prob = np.where(unnormalized_prob > 0, unnormalized_prob, 0) /  np.sum(np.where(unnormalized_prob > 0, unnormalized_prob, 0), axis=1, keepdims=True)
+    
+    prob = unnormalized_prob /  np.sum(unnormalized_prob, axis=1, keepdims=True)
     
     plt.plot(X, prob[:, 0], c='blue')
     plt.plot(X, prob[:, 1], c='red')
@@ -44,7 +48,6 @@ def visualize(x, y, theta, h):
     plt.scatter(x[y == 2], -.1 * np.ones(len(x) // 3), c='green', marker='v')
 
     plt.show()
-
 
 x, y = generate_data(sample_size=90, n_class=3)
 theta = lspc(x, y, l=0.1, h=2., n_class=3)
