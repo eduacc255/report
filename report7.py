@@ -32,11 +32,9 @@ def visualize(x, y, theta, h):
     plt.ylim(-.3, 1.8)
     unnormalized_prob = K.dot(theta)
     
-    print(unnormalized_prob)
-    
     # 解の補正
     prob = np.where(unnormalized_prob > 0, unnormalized_prob, 0) /  np.sum(np.where(unnormalized_prob > 0, unnormalized_prob, 0), axis=1, keepdims=True)
-    
+
     plt.plot(X, prob[:, 0], c='blue')
     plt.plot(X, prob[:, 1], c='red')
     plt.plot(X, prob[:, 2], c='green')
