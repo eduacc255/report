@@ -32,9 +32,11 @@ def visualize(x, y, theta, h):
     plt.ylim(-.3, 1.8)
     unnormalized_prob = K.dot(theta)
     
+    print(unnormalized_prob)
+    
     # 解の補正
     prob = np.where(unnormalized_prob > 0, unnormalized_prob, 0) /  np.sum(np.where(unnormalized_prob > 0, unnormalized_prob, 0), axis=1, keepdims=True)
-
+    
     plt.plot(X, prob[:, 0], c='blue')
     plt.plot(X, prob[:, 1], c='red')
     plt.plot(X, prob[:, 2], c='green')
@@ -43,8 +45,8 @@ def visualize(x, y, theta, h):
     plt.scatter(x[y == 1], -.2 * np.ones(len(x) // 3), c='red', marker='x')
     plt.scatter(x[y == 2], -.1 * np.ones(len(x) // 3), c='green', marker='v')
 
-    plt.show()
+    plt.savefig('report7.png')
 
 x, y = generate_data(sample_size=90, n_class=3)
-theta = lspc(x, y, l=0.1, h=2., n_class=3)
-visualize(x, y, theta, h=2.)
+theta = lspc(x, y, l=0.5, h=1., n_class=3)
+visualize(x, y, theta, h=1.)
