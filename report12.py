@@ -1,7 +1,7 @@
 
 import numpy as np
 import matplotlib
-import scipy.linalg
+from scipy.linalg import eigh
 
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -27,7 +27,6 @@ def LapEig(x, d=2, k=10):
     W = np.where(np.logical_or(W, W.T), 1, 0)
     
     D = np.diag(W.sum(axis=1))
-    D = D.astype(float)
     L = D - W
     
     eig_val, eig_vec = eigh(L, D)
